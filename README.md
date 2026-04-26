@@ -2,7 +2,7 @@
 
 ---
 
-<img src="./teaser.png" alt="解放双手，自动钓鱼" width="720" />
+<img src="./teaser.png" alt="解放双手，自动钓鱼" width="480" />
 
 > [!NOTE]
 > **速览**
