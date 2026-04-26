@@ -1,0 +1,27 @@
+{
+  "class_names": [
+    "0_waiting_for_start",
+    "1_waiting_for _fish",
+    "2_catching_fish",
+    "3_fighting_with_fish",
+    "4_after_fighting",
+    "5_nonsense"
+  ],
+  "class_to_idx": {
+    "0_waiting_for_start": 0,
+    "1_waiting_for _fish": 1,
+    "2_catching_fish": 2,
+    "3_fighting_with_fish": 3,
+    "4_after_fighting": 4,
+    "5_nonsense": 5
+  },
+  "idx_to_class": {
+    "0": "0_waiting_for_start",
+    "1": "1_waiting_for _fish",
+    "2": "2_catching_fish",
+    "3": "3_fighting_with_fish",
+    "4": "4_after_fighting",
+    "5": "5_nonsense"
+  },
+  "input_size": 320
+}

@@ -1,0 +1,45 @@
+# ------------------------------
+# Python / build artifacts
+# ------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+build/
+dist/
+wheels/
+pip-wheel-metadata/
+
+# ------------------------------
+# Virtual environment / IDE
+# ------------------------------
+.venv/
+.vscode/
+.idea/
+
+# ------------------------------
+# Runtime / temporary outputs
+# ------------------------------
+*.log
+*.tmp
+*.temp
+Thumbs.db
+Desktop.ini
+
+# ------------------------------
+# Large datasets and raw frames
+# (keep runs/ tracked for model outputs)
+# ------------------------------
+dataset/
+origin_frames/
+decup_origin_frames/
+unique_frames/
+assets/
+
+# Explicitly keep runs
