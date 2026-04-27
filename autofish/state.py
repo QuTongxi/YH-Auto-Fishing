@@ -318,6 +318,20 @@ class FishingStateMachine:
 
         raise StateMachineError(f"recovery timeout after exception: {reason}")
 
+    def recover_from_transition_error(self, reason: str) -> None:
+        audit.warn(
+            f"transition error recovery: {reason}, wait 1.8s -> press F -> wait 0.2s -> resync by model"
+        )
+        time.sleep(1.8)
+        press_key(config.KEY_START_OR_CATCH)
+        self._mark_action()
+        time.sleep(0.2)
+
+        frame = self.capture.grab()
+        pred = self.predictor.predict_now(frame)
+        vision = vision_from_prediction(pred)
+        self._sync_state_from_vision(vision, reason=f"transition error resync: {reason}")
+
     def _mark_action(self) -> None:
         self.last_action_at = time.perf_counter()
 
@@ -336,5 +350,26 @@ class FishingStateMachine:
             return
 
         raise InvalidTransition(message)
+
+    def _sync_state_from_vision(self, vision: Vision, reason: str) -> None:
+        self.fight.reset()
+
+        if vision == Vision.WAITING_FOR_START:
+            self._set_state(RunState.WAITING_FOR_START, reason)
+            return
+
+        if vision == Vision.WAITING_FOR_FISH:
+            self._set_state(RunState.WAITING_FOR_FISH, reason)
+            return
+
+        if vision in {Vision.CATCHING_FISH, Vision.FIGHTING_WITH_FISH}:
+            self._set_state(RunState.FIGHTING_WITH_FISH, reason)
+            return
+
+        if vision == Vision.AFTER_FIGHTING:
+            self._set_state(RunState.AFTER_FIGHTING, reason)
+            return
+
+        audit.warn(f"resync ignored because vision is nonsense: {reason}")
 
 

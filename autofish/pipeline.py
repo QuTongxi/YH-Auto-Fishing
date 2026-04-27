@@ -5,7 +5,7 @@ from collections import deque
 
 from . import audit, config
 from .mobilenet import AsyncMobileNetClassifier, MobileNetClassifier
-from .state import FishingStateMachine
+from .state import FishingStateMachine, InvalidTransition
 from .window_capture import WindowCapture
 
 
@@ -98,7 +98,10 @@ def run() -> None:
                 if config.DEBUG:
                     raise
 
-                machine.recover_from_exception(str(exc))
+                if isinstance(exc, InvalidTransition):
+                    machine.recover_from_transition_error(str(exc))
+                else:
+                    machine.recover_from_exception(str(exc))
 
             fps_meter.tick(state_name=machine.state.value, mode=mode)
             rate.wait()
