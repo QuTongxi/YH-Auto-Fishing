@@ -1,0 +1,9 @@
+uv
+opencv-python
+pillow
+torch
+torchvision
+torchaudio
+pydirectinput-rgx
+mss
+pywin32
