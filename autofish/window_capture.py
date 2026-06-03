@@ -83,7 +83,7 @@ class WindowCapture:
         try:
             win32gui.ShowWindow(self.hwnd, win32con.SW_RESTORE)
             win32gui.SetForegroundWindow(self.hwnd)
-            win32api.keybd_event(win32con.VK_MENU, 0, 0, 0)  # 按下Alt
+            win32api.keybd_event(win32con.VK_MENU, 0, 0, 0) 
             win32api.keybd_event(win32con.VK_MENU, 0, win32con.KEYEVENTF_KEYUP, 0)
             click_window(self.hwnd, 100, 100)
         except Exception as exc:

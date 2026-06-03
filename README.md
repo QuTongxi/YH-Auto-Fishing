@@ -29,6 +29,12 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 pip install -U uv -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
+安装依赖：
+
+```powershell
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
 ### 1.3 给 uv 配置国内源（建议）
 
 在 PowerShell 执行（仅当前终端生效）：
