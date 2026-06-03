@@ -9,6 +9,24 @@ import win32con
 import win32gui
 
 from . import audit, config
+import win32api
+
+def click_window(hwnd, x, y):
+    """
+    模拟在窗口内的 (x,y) 坐标点击（不移动真实鼠标）
+    :param hwnd: 窗口句柄
+    :param x: 窗口内的 X 坐标
+    :param y: 窗口内的 Y 坐标
+    """
+    # 把窗口内坐标转成系统消息格式
+    lParam = win32api.MAKELONG(x, y)
+
+    # 1. 发送鼠标按下
+    win32api.SendMessage(hwnd, win32con.BM_CLICK, 0, lParam)
+    # 或者更底层的鼠标按下+抬起（兼容性更强）
+    win32api.SendMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
+    win32api.SendMessage(hwnd, win32con.WM_LBUTTONUP, 0, lParam)
+
 
 
 class WindowCapture:
@@ -41,6 +59,7 @@ class WindowCapture:
                 matches.append((hwnd, title, class_name, rect))
 
         win32gui.EnumWindows(enum_handler, None)
+        
 
         if not matches:
             raise RuntimeError(
@@ -64,6 +83,9 @@ class WindowCapture:
         try:
             win32gui.ShowWindow(self.hwnd, win32con.SW_RESTORE)
             win32gui.SetForegroundWindow(self.hwnd)
+            win32api.keybd_event(win32con.VK_MENU, 0, 0, 0) 
+            win32api.keybd_event(win32con.VK_MENU, 0, win32con.KEYEVENTF_KEYUP, 0)
+            click_window(self.hwnd, 100, 100)
         except Exception as exc:
             audit.warn(f"Failed to activate window, continuing: {exc}")
 

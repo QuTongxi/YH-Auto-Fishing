@@ -114,4 +114,11 @@ def run() -> None:
 
 
 if __name__ == "__main__":
-    run()
+    while True:
+        try:
+            run()
+            break
+        except Exception as exc:
+            audit.exception("application crashed", exc)
+            audit.normal("restarting in 5 seconds...")
+            time.sleep(5.0)
